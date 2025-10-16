@@ -1,5 +1,5 @@
 import { createBucketClient } from '@cosmicjs/sdk'
-import type { Post, Author, Category, User } from '@/types'
+import type { Post, Author, Category, User, NewsletterSubscriber } from '@/types'
 
 export const cosmic = createBucketClient({
   bucketSlug: process.env.COSMIC_BUCKET_SLUG as string,
@@ -249,5 +249,43 @@ export async function updateUser(userId: string, updates: { name?: string; bio?:
     return response.object as User
   } catch (error) {
     throw new Error('Failed to update user')
+  }
+}
+
+// Newsletter subscription functions
+export async function getNewsletterSubscriberByEmail(email: string): Promise<NewsletterSubscriber | null> {
+  try {
+    const response = await cosmic.objects
+      .find({ 
+        type: 'newsletter-subscribers',
+        'metadata.email': email
+      })
+      .props(['id', 'title', 'slug', 'metadata'])
+    
+    const subscribers = response.objects as NewsletterSubscriber[]
+    return (subscribers[0] as NewsletterSubscriber | undefined) ?? null
+  } catch (error) {
+    if (hasStatus(error) && error.status === 404) {
+      return null
+    }
+    throw new Error('Failed to fetch newsletter subscriber')
+  }
+}
+
+export async function createNewsletterSubscriber(name: string, email: string): Promise<NewsletterSubscriber> {
+  try {
+    const response = await cosmicWrite.objects.insertOne({
+      title: `${name} - ${email}`,
+      type: 'newsletter-subscribers',
+      metadata: {
+        name,
+        email,
+        subscribed_at: new Date().toISOString()
+      }
+    })
+    
+    return response.object as NewsletterSubscriber
+  } catch (error) {
+    throw new Error('Failed to create newsletter subscriber')
   }
 }

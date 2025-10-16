@@ -65,6 +65,16 @@ export interface User extends CosmicObject {
   }
 }
 
+// Newsletter Subscriber interface
+export interface NewsletterSubscriber extends CosmicObject {
+  type: 'newsletter-subscribers'
+  metadata: {
+    name: string
+    email: string
+    subscribed_at: string
+  }
+}
+
 // API response types
 export interface CosmicResponse<T> {
   objects: T[]
@@ -107,4 +117,8 @@ export function isCategory(obj: CosmicObject): obj is Category {
 
 export function isUser(obj: CosmicObject): obj is User {
   return obj.type === 'users'
+}
+
+export function isNewsletterSubscriber(obj: CosmicObject): obj is NewsletterSubscriber {
+  return obj.type === 'newsletter-subscribers'
 }
