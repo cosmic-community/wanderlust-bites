@@ -57,12 +57,6 @@ export default function Header() {
               Home
             </Link>
             <Link 
-              href="/search" 
-              className="text-neutral-700 hover:text-primary-600 font-medium transition-colors"
-            >
-              Search
-            </Link>
-            <Link 
               href="/categories/street-food" 
               className="text-neutral-700 hover:text-primary-600 font-medium transition-colors"
             >
