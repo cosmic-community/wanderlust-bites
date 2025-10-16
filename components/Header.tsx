@@ -9,6 +9,17 @@ export default function Header() {
 
   useEffect(() => {
     checkAuth()
+    
+    // Listen for auth state changes
+    const handleAuthChange = () => {
+      checkAuth()
+    }
+    
+    window.addEventListener('auth-state-changed', handleAuthChange)
+    
+    return () => {
+      window.removeEventListener('auth-state-changed', handleAuthChange)
+    }
   }, [])
 
   const checkAuth = async () => {
@@ -17,6 +28,8 @@ export default function Header() {
       if (response.ok) {
         const data = await response.json()
         setUser(data.user)
+      } else {
+        setUser(null)
       }
     } catch (error) {
       // User not authenticated

@@ -33,6 +33,9 @@ export default function LoginPage() {
         throw new Error(data.error || 'Failed to login')
       }
 
+      // Dispatch custom event to notify header of auth state change
+      window.dispatchEvent(new Event('auth-state-changed'))
+
       // Redirect to home page on success
       router.push('/')
       router.refresh()

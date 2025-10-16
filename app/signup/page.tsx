@@ -34,6 +34,9 @@ export default function SignupPage() {
         throw new Error(data.error || 'Failed to create account')
       }
 
+      // Dispatch custom event to notify header of auth state change
+      window.dispatchEvent(new Event('auth-state-changed'))
+
       // Redirect to home page on success
       router.push('/')
       router.refresh()
