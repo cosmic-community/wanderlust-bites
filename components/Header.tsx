@@ -43,6 +43,12 @@ export default function Header() {
             >
               Local Cuisine
             </Link>
+            <Link 
+              href="/contact" 
+              className="text-neutral-700 hover:text-primary-600 font-medium transition-colors"
+            >
+              Contact
+            </Link>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -94,6 +100,13 @@ export default function Header() {
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Local Cuisine
+              </Link>
+              <Link 
+                href="/contact" 
+                className="text-neutral-700 hover:text-primary-600 font-medium transition-colors px-2 py-1"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Contact
               </Link>
             </div>
           </nav>

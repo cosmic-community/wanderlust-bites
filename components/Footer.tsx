@@ -48,10 +48,17 @@ export default function Footer() {
           </div>
           
           <div>
-            <h3 className="text-white font-bold mb-4">About</h3>
-            <p className="text-neutral-400">
-              Built with Next.js and powered by Cosmic CMS.
-            </p>
+            <h3 className="text-white font-bold mb-4">Connect</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link 
+                  href="/contact"
+                  className="hover:text-primary-400 transition-colors"
+                >
+                  Contact Us
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
         
