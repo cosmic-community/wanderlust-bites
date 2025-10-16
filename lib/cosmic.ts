@@ -193,7 +193,8 @@ export async function getUserByEmail(email: string): Promise<User | null> {
       .props(['id', 'title', 'slug', 'metadata'])
     
     const users = response.objects as User[]
-    return users.length > 0 ? users[0] : null
+    // Changed: Explicitly handle undefined by using optional chaining and nullish coalescing
+    return users[0] ?? null
   } catch (error) {
     if (hasStatus(error) && error.status === 404) {
       return null
