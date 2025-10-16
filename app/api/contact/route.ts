@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Send email using Resend
-    const data = await resend.emails.send({
+    await resend.emails.send({
       from: 'tony@cosmicjs.com',
       to: 'tony@cosmicjs.com',
       subject: `Contact Form: Message from ${body.name}`,
@@ -69,8 +69,7 @@ This email was sent from the Wanderlust Bites contact form.
     return NextResponse.json(
       { 
         success: true, 
-        message: 'Email sent successfully',
-        id: data.id 
+        message: 'Email sent successfully'
       },
       { status: 200 }
     )
