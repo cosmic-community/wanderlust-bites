@@ -1,10 +1,28 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [user, setUser] = useState<{ name: string; email: string } | null>(null)
+
+  useEffect(() => {
+    checkAuth()
+  }, [])
+
+  const checkAuth = async () => {
+    try {
+      const response = await fetch('/api/auth/me')
+      if (response.ok) {
+        const data = await response.json()
+        setUser(data.user)
+      }
+    } catch (error) {
+      // User not authenticated
+      setUser(null)
+    }
+  }
 
   return (
     <header className="bg-white border-b border-neutral-200 sticky top-0 z-40">
@@ -49,6 +67,21 @@ export default function Header() {
             >
               Contact
             </Link>
+            {user ? (
+              <Link 
+                href="/profile" 
+                className="text-primary-600 hover:text-primary-700 font-medium transition-colors"
+              >
+                Profile
+              </Link>
+            ) : (
+              <Link 
+                href="/login" 
+                className="text-primary-600 hover:text-primary-700 font-medium transition-colors"
+              >
+                Login
+              </Link>
+            )}
           </nav>
 
           {/* Mobile Menu Button */}
@@ -108,6 +141,23 @@ export default function Header() {
               >
                 Contact
               </Link>
+              {user ? (
+                <Link 
+                  href="/profile" 
+                  className="text-primary-600 hover:text-primary-700 font-medium transition-colors px-2 py-1"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Profile
+                </Link>
+              ) : (
+                <Link 
+                  href="/login" 
+                  className="text-primary-600 hover:text-primary-700 font-medium transition-colors px-2 py-1"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Login
+                </Link>
+              )}
             </div>
           </nav>
         )}

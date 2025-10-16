@@ -50,12 +50,46 @@ export interface Category extends CosmicObject {
   }
 }
 
+// User interface
+export interface User extends CosmicObject {
+  type: 'users'
+  metadata: {
+    name: string
+    email: string
+    password_hash: string
+    bio?: string
+    profile_photo?: {
+      url: string
+      imgix_url: string
+    }
+  }
+}
+
 // API response types
 export interface CosmicResponse<T> {
   objects: T[]
   total: number
   limit?: number
   skip?: number
+}
+
+// Auth types
+export interface AuthUser {
+  id: string
+  name: string
+  email: string
+  bio?: string
+  profile_photo?: {
+    url: string
+    imgix_url: string
+  }
+}
+
+export interface JWTPayload {
+  userId: string
+  email: string
+  iat?: number
+  exp?: number
 }
 
 // Type guards
@@ -69,4 +103,8 @@ export function isAuthor(obj: CosmicObject): obj is Author {
 
 export function isCategory(obj: CosmicObject): obj is Category {
   return obj.type === 'categories'
+}
+
+export function isUser(obj: CosmicObject): obj is User {
+  return obj.type === 'users'
 }
